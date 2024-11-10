@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from statsmodels.tsa.stattools import acf
 
 # Initialize parameter vector x = [phi, sigma, T]
 phi_values = [1, 0.7, 0.6, 0.35, 0.1, 0.03]  # Vector of AR(1) coefficients 
