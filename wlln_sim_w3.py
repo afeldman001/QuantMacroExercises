@@ -1,28 +1,36 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import geom, gamma, t
 
 # Maximum sample size for illustrating the Weak Law of Large Numbers
-T = 10000  # Set a manageable maximum sample size for smoother convergence illustration
-num_trials = 100  # Number of trials for averaging (optional, helps reduce noise)
+T = 10000  # Maximum horizon of periods for smoother convergence illustration
 
-# Distributions with simplified names
-distributions = {
-    'Normal': lambda size: np.random.normal(0, 1, size),
-    'Uniform': lambda size: np.random.uniform(0, 1, size),
-    'Geometric': lambda size: np.random.geometric(0.5, size),
-    "Student's t (finite variance)": lambda size: np.random.standard_t(2, size),
-    "Student's t (infinite variance)": lambda size: np.random.standard_t(1, size),
-    'Gamma': lambda size: np.random.gamma(2, 2, size)
-}
+# Distribution parameters (matching the MATLAB initialization)
+sig_z, mu_z = 0.2, 10      # Parameters for normal distribution
+a, b = 2, 4                # Parameters for uniform distribution (range [a, b])
+p = 0.2                    # Parameter for geometric distribution (probability of success)
+k, thet = 2, 2             # Parameters for gamma distribution
+nu1 = 8                    # Degrees of freedom for Student's t with finite variance
+nu2 = 2                    # Degrees of freedom for Student's t with infinite variance
 
-# Theoretical means for each distribution
+# Theoretical means for each distribution (centered where necessary)
 theoretical_means = {
-    'Normal': 0,
-    'Uniform': 0.5,
-    'Geometric': 2,
+    'Normal': mu_z,
+    'Uniform': (a + b) / 2,
+    'Geometric': (1 - p) / p,
     "Student's t (finite variance)": 0,
     "Student's t (infinite variance)": 0,
-    'Gamma': 4
+    'Gamma': k * thet
+}
+
+# Define the distributions with specified parameters
+distributions = {
+    'Normal': lambda size: mu_z + sig_z * np.random.randn(size),
+    'Uniform': lambda size: a + (b - a) * np.random.rand(size),
+    'Geometric': lambda size: geom.rvs(p, size=size) - (1 / p),  # Centered at theoretical mean
+    "Student's t (finite variance)": lambda size: t.rvs(nu1, size=size),
+    "Student's t (infinite variance)": lambda size: t.rvs(nu2, size=size),
+    'Gamma': lambda size: gamma.rvs(k, scale=thet, size=size) - (k * thet)  # Centered at theoretical mean
 }
 
 # Set up subplots in a 3x2 grid for each distribution
