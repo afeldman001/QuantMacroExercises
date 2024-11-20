@@ -2,7 +2,7 @@ import numpy as np
 from scipy.stats import t
 from ARp_OLS_w4 import ARpOLS  # Import the ARpOLS function
 
-# Function to simulate AR(4) data
+# function to simulate AR(4) data
 def simulate_ar4(n, coefficients, constant, eps_std):
     """
     Simulates an AR(4) process with a constant.
@@ -19,7 +19,7 @@ def simulate_ar4(n, coefficients, constant, eps_std):
     y = np.zeros(n)
     eps = np.random.normal(0, eps_std, n)
     
-    # Generate AR(4) process
+    # generate AR(4) process
     for t in range(4, n):
         y[t] = (constant + 
                 coefficients[0] * y[t-1] + 
@@ -30,26 +30,26 @@ def simulate_ar4(n, coefficients, constant, eps_std):
         
     return y
 
-# Main function to run simulation and estimation and print results
+# main function to run simulation and estimation and print results
 def main():
-    # Parameters for AR(4) simulation
-    n = 1000000  # Number of observations
+    # parameters for AR(4) simulation
+    n = 1000000  # number of observations
     coefficients = [0.5, -0.2, 0.1, 0.3]  # AR(4) coefficients
-    constant = 1.0  # Constant term
-    eps_std = 0.5  # Standard deviation of noise
+    constant = 1.0  # constant
+    eps_std = 0.5  # standard deviation of noise
     
-    # Simulate AR(4) data
+    # simulate AR(4) data
     y = simulate_ar4(n, coefficients, constant, eps_std)
     
-    # Estimate AR(4) model on simulated data using ARpOLS
-    p = 4  # Number of lags for AR(4)
-    const = 1  # Include a constant term
-    alpha = 0.05  # Significance level
+    # estimate AR(4) model on simulated data using ARpOLS
+    p = 4  # number of lags for AR(4)
+    const = 1  # include constant
+    alpha = 0.05  # significance level
     
-    # Call ARpOLS for estimation
+    # call ARpOLS for estimation
     results = ARpOLS(y, p, const, alpha)
     
-    # Print results
+    # print results
     print("OLS Estimates (thetahat):", results["thetahat"])
     print("Standard Errors (sd_thetahat):", results["sd_thetahat"])
     print("t-Statistics (tstat):", results["tstat"])
@@ -58,6 +58,6 @@ def main():
     print("Confidence Intervals (theta_ci):", results["theta_ci"])
     print("Residuals (resid):", results["resid"])
 
-# Run main function if script is executed directly
+# run main function if script is executed directly
 if __name__ == "__main__":
     main()
