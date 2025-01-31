@@ -130,7 +130,7 @@ def plot_irf(irf, var_names, shock_names, cumsum_indicator):
 def main():
     """main function to execute the SVAR analysis"""
     # fetch and prepare data
-    url = "https://raw.githubusercontent.com/wmutschl/Quantitative-Macroeconomics/refs/heads/main/data/USOil.csv"
+    url = "https://raw.githubusercontent.com/afeldman001/QuantMacroExercises/refs/heads/main/USOil.csv"
     data = pd.read_csv(url)[['drpoil', 'infl', 'drgdp']].values
     
     # estimate VAR model and compute Cholesky decomposition
